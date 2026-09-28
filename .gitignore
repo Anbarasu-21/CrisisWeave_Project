@@ -1,0 +1,49 @@
+# ============================================================
+# CRISISWEAVE GITIGNORE
+# ============================================================
+
+# Dataset
+01_Dataset/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+*.env
+.streamlit/secrets.toml
+
+# Temporary files
+*.tmp
+*.log
+*.backup*
+*.bak
+
+# ============================================================
+# LARGE ML ARTIFACTS
+# ============================================================
+
+# BERT training checkpoints / large transformer artifacts
+03_Models/BERT/
+
+# Archived experiments, old models, images and outputs
+08_Archieve/
+
+# Large model formats
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# ============================================================
+# Generated / runtime files
+# ============================================================
+
+*.csv
+*.parquet
+*.h5

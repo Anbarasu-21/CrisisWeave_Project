@@ -1,0 +1,103 @@
+{
+  "incident_id": "CW-001",
+  "evidence_id": "EV-001",
+  "timestamp": "2026-09-11T12:00:00",
+  "location": {
+    "latitude": 9.929117,
+    "longitude": 76.270436,
+    "source": "user_map_pin"
+  },
+  "image_evidence": {
+    "image_path": null,
+    "cnn_severity": "High",
+    "cnn_confidence": null
+  },
+  "text_evidence": {
+    "text": "Water has entered the road and several people need help.",
+    "bert_category": "requests_or_urgent_needs",
+    "bert_confidence": null
+  },
+  "gis_evidence": {
+    "nearest_road": {
+      "feature_type": "Road",
+      "name": "Syrian Church Road",
+      "latitude": 1097835.502269,
+      "longitude": 639258.587067,
+      "distance_m": 17.2
+    },
+    "nearest_school": {
+      "feature_type": "School",
+      "name": "Kendriya Vidyalaya-Mundamveli Kochi",
+      "latitude": 1098032.308252,
+      "longitude": 638927.3767,
+      "distance_m": 358.26
+    },
+    "nearest_hospital": {
+      "feature_type": "Hospital",
+      "name": "AMJ Hospital",
+      "latitude": 1097876.28905,
+      "longitude": 639258.858736,
+      "distance_m": 38.14
+    },
+    "nearest_bridge": {
+      "feature_type": "Bridge",
+      "name": "Gateway of Kochi Bridge",
+      "latitude": 1098348.974526,
+      "longitude": 639212.568086,
+      "distance_m": 381.73
+    },
+    "nearest_waterbody": {
+      "feature_type": "Waterbody",
+      "name": "Waterbody",
+      "distance_m": 73.52,
+      "relationship": "Near waterbody"
+    },
+    "water_relationship": null
+  },
+  "temporal_evidence": {
+    "severity_trend": "INCREASING",
+    "water_extent_trend": "INCREASING",
+    "affected_population_trend": "INCREASING",
+    "overall_temporal_trend": "INCREASING",
+    "progression_direction": "NE",
+    "latest_severity": "High"
+  },
+  "response_evidence": {
+    "response_status": "En Route",
+    "response_timestamp": "2026-09-11T12:00:00"
+  },
+  "source_metadata": {
+    "image_source": "CNN",
+    "text_source": "BERT",
+    "gis_source": "OpenStreetMap",
+    "temporal_source": "Temporal_Analysis",
+    "response_source": "Response_Event"
+  },
+  "source_reliability": {
+    "CNN": {
+      "source_type": "image_classifier",
+      "reliability": null,
+      "status": "PENDING"
+    },
+    "BERT": {
+      "source_type": "text_classifier",
+      "reliability": null,
+      "status": "PENDING"
+    },
+    "OpenStreetMap": {
+      "source_type": "geospatial_context",
+      "reliability": null,
+      "status": "PENDING"
+    },
+    "Temporal_Analysis": {
+      "source_type": "temporal_evidence",
+      "reliability": null,
+      "status": "PENDING"
+    },
+    "Response_Event": {
+      "source_type": "response_information",
+      "reliability": null,
+      "status": "PENDING"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "scenario": "CONTROLLED_CONFLICT_TEST",
+  "inputs": {
+    "cnn_severity": "High",
+    "temporal_severity": "Low"
+  },
+  "source_weights": {
+    "CNN": 0.75,
+    "Temporal_Analysis": 0.8
+  },
+  "fusion_result": {
+    "severity_scores": {
+      "Low": 0.5161,
+      "Moderate": 0.0,
+      "High": 0.4839
+    },
+    "fused_severity": "Low",
+    "uncertainty": 0.6305
+  },
+  "purpose": "Demonstrate behavior of conflict-aware fusion under contradictory severity evidence."
+}

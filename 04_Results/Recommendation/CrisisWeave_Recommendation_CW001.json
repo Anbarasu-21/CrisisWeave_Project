@@ -1,0 +1,42 @@
+{
+  "incident_id": "CW-001",
+  "recommendation_level": "IMMEDIATE RESPONSE",
+  "overall_decision": "ACT NOW AND PRIORITIZE NEXT LOCATION",
+  "primary_recommendation": "Immediate disaster response is recommended. The incident is assessed as HIGH severity, the location is geographically verified or partially verified, and the temporal evidence indicates an increasing trend.",
+  "current_disaster_state": {
+    "severity": "HIGH",
+    "operational_risk": "CRITICAL",
+    "state_confidence": 1.0
+  },
+  "location_verification": {
+    "status": "VERIFIED",
+    "verification_score": 0.855
+  },
+  "temporal_assessment": {
+    "trend": "INCREASING",
+    "escalation_state": "ESCALATING",
+    "progression_direction": "NE"
+  },
+  "humanitarian_assessment": {
+    "category": "requests_or_urgent_needs"
+  },
+  "evidence_quality": {
+    "conflict_status": "AGREEMENT",
+    "overall_conflict": false
+  },
+  "next_priority_location": {
+    "name": "AMJ Hospital",
+    "type": "Hospital",
+    "latitude": 9.9294302,
+    "longitude": 76.2702904,
+    "priority_score": 0.8
+  },
+  "recommended_actions": [
+    "Immediate disaster response is recommended. The incident is assessed as HIGH severity, the location is geographically verified or partially verified, and the temporal evidence indicates an increasing trend.",
+    "Prioritize AMJ Hospital (Hospital) as the next location for assessment or preparedness action.",
+    "Maintain active monitoring in the NE progression direction because the disaster state is showing an increasing trend.",
+    "Humanitarian response planning should consider the reported information category: requests_or_urgent_needs.",
+    "Continue monitoring the response state (EN ROUTE) and update it as new response events become available.",
+    "No major evidence conflict is currently identified; the fused state can be used for decision support."
+  ]
+}

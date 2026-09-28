@@ -1,0 +1,33 @@
+{
+  "incident_id": "CW-001",
+  "evidence_id": "EV-001",
+  "severity": {
+    "fused_class": "High",
+    "scores": {
+      "Low": 0.0,
+      "Moderate": 0.0,
+      "High": 1.0
+    },
+    "uncertainty": -0.0
+  },
+  "humanitarian": {
+    "bert_category": "requests_or_urgent_needs",
+    "support_score": 1.0
+  },
+  "temporal": {
+    "trend": "INCREASING",
+    "escalation_score": 1.0,
+    "progression_direction": "NE"
+  },
+  "gis": {
+    "critical_context_score": 1.0
+  },
+  "response": {
+    "status": "En Route",
+    "response_signal": 0.75
+  },
+  "conflict": {
+    "status": "AGREEMENT",
+    "overall_conflict": false
+  }
+}

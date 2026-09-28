@@ -1,0 +1,26 @@
+{
+  "incident_id": "CW-001",
+  "eligibility": {
+    "location_verification": "VERIFIED",
+    "fused_severity": "High",
+    "eligible": true
+  },
+  "observed_progression": {
+    "direction": "NE",
+    "bearing": 45
+  },
+  "recommendation_status": "PRIORITY_LOCATION_IDENTIFIED",
+  "next_priority_location": {
+    "candidate_id": "HOSPITAL_0",
+    "type": "Hospital",
+    "name": "AMJ Hospital",
+    "latitude": 9.9294302,
+    "longitude": 76.2702904,
+    "distance_from_incident_m": 38.14,
+    "priority_score": 0.8,
+    "observed_progression_direction": "NE",
+    "direction_alignment_score": 0.5,
+    "reason": "Candidate ranked highest based on observed temporal progression direction, spatial proximity, water proximity, and critical-location importance.",
+    "interpretation": "This is a priority location to check next; it is not a deterministic prediction that flooding will reach this location."
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "incident_id": "CW-001",
+  "incident_location": {
+    "latitude": 9.929117,
+    "longitude": 76.270436,
+    "source": "user_map_pin"
+  },
+  "gis_context": {
+    "nearest_road": {
+      "feature_type": "Road",
+      "name": "Syrian Church Road",
+      "latitude": 1097835.502269,
+      "longitude": 639258.587067,
+      "distance_m": 17.2
+    },
+    "nearest_school": {
+      "feature_type": "School",
+      "name": "Kendriya Vidyalaya-Mundamveli Kochi",
+      "latitude": 1098032.308252,
+      "longitude": 638927.3767,
+      "distance_m": 358.26
+    },
+    "nearest_hospital": {
+      "feature_type": "Hospital",
+      "name": "AMJ Hospital",
+      "latitude": 1097876.28905,
+      "longitude": 639258.858736,
+      "distance_m": 38.14
+    },
+    "nearest_bridge": {
+      "feature_type": "Bridge",
+      "name": "Gateway of Kochi Bridge",
+      "latitude": 1098348.974526,
+      "longitude": 639212.568086,
+      "distance_m": 381.73
+    },
+    "nearest_waterbody": {
+      "feature_type": "Waterbody",
+      "name": "Waterbody",
+      "distance_m": 73.52,
+      "relationship": "Near waterbody"
+    }
+  },
+  "location_verification": {
+    "status": "GEOGRAPHICALLY PLAUSIBLE",
+    "verification_score": 5,
+    "water_relevant": true,
+    "road_relevant": true,
+    "water_distance_m": 73.52,
+    "road_distance_m": 17.2
+  },
+  "candidate_locations": [
+    {
+      "candidate_id": "HOSPITAL_0",
+      "type": "Hospital",
+      "name": "AMJ Hospital",
+      "latitude": 9.9294302,
+      "longitude": 76.2702904,
+      "distance_from_incident_m": 38.14,
+      "distance_to_water_m": 57.29,
+      "distance_to_road_m": 19.62,
+      "base_criticality": 1.0,
+      "incident_proximity": "Very Close",
+      "water_proximity": "Very Close",
+      "road_proximity": "Very Close",
+      "incident_proximity_score": 1.0,
+      "water_proximity_score": 1.0,
+      "spatial_priority": 1.0
+    },
+    {
+      "candidate_id": "BRIDGE_1",
+      "type": "Bridge",
+      "name": "Bridge",
+      "latitude": 9.9304504,
+      "longitude": 76.2669544,
+      "distance_from_incident_m": 409.23,
+      "distance_to_water_m": 9.14,
+      "distance_to_road_m": 0.0,
+      "base_criticality": 0.9,
+      "incident_proximity": "Moderate",
+      "water_proximity": "Very Close",
+      "road_proximity": "Very Close",
+      "incident_proximity_score": 0.5,
+      "water_proximity_score": 1.0,
+      "spatial_priority": 0.73
+    },
+    {
+      "candidate_id": "SCHOOL_0",
+      "type": "School",
+      "name": "Kendriya Vidyalaya-Mundamveli Kochi",
+      "latitude": 9.93082108969052,
+      "longitude": 76.26732123627193,
+      "distance_from_incident_m": 390.06,
+      "distance_to_water_m": 33.99,
+      "distance_to_road_m": 28.47,
+      "base_criticality": 0.75,
+      "incident_proximity": "Moderate",
+      "water_proximity": "Very Close",
+      "road_proximity": "Very Close",
+      "incident_proximity_score": 0.5,
+      "water_proximity_score": 1.0,
+      "spatial_priority": 0.7
+    },
+    {
+      "candidate_id": "BRIDGE_0",
+      "type": "Bridge",
+      "name": "Gateway of Kochi Bridge",
+      "latitude": 9.933706,
+      "longitude": 76.2698847,
+      "distance_from_incident_m": 511.08,
+      "distance_to_water_m": 0.0,
+      "distance_to_road_m": 0.0,
+      "base_criticality": 0.9,
+      "incident_proximity": "Far",
+      "water_proximity": "Very Close",
+      "road_proximity": "Very Close",
+      "incident_proximity_score": 0.2,
+      "water_proximity_score": 1.0,
+      "spatial_priority": 0.58
+    }
+  ]
+}

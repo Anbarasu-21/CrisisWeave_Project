@@ -1,0 +1,60 @@
+
+Analyze this image carefully for visible flood-related evidence.
+
+Return ONLY valid JSON. No explanation. No markdown.
+
+{
+  "water_presence": true,
+  "flood_extent": "Widespread",
+  "road_inundation": true,
+  "vehicles_visible": true,
+  "vehicles_in_water": true,
+  "buildings_visible": true,
+  "buildings_surrounded_by_water": false,
+  "people_visible": true,
+  "people_in_water": true,
+  "estimated_water_depth": "Unknown",
+  "visual_confidence": "High"
+}
+
+Rules:
+
+water_presence:
+true if visible water is present.
+
+flood_extent:
+choose ONLY "Localized", "Moderate", "Widespread", "Dominant", or "Unknown".
+
+road_inundation:
+true if flood water visibly covers a road or street.
+
+vehicles_visible:
+true if any vehicle is visible.
+
+vehicles_in_water:
+true if a visible vehicle is in, surrounded by, or driving through flood water.
+
+buildings_visible:
+true if any building or structure is visible.
+
+buildings_surrounded_by_water:
+true if flood water visibly surrounds or reaches a building.
+
+people_visible:
+true if a person is visible.
+
+people_in_water:
+true if a visible person is standing, walking, riding, or otherwise located in flood water.
+
+estimated_water_depth:
+choose ONLY "Shallow", "Knee", "Waist", "Deep", or "Unknown".
+Never guess.
+
+visual_confidence:
+choose ONLY "Low", "Medium", or "High".
+
+Judge only what is visibly present.
+Do not guess.
+Do not invent information.
+
+Return ONLY the JSON object.

@@ -1,0 +1,18 @@
+{
+  "incident_id": "CW-001",
+  "evidence_id": "EV-001",
+  "severity_conflict": {
+    "conflict": false,
+    "status": "AGREEMENT",
+    "difference": 0
+  },
+  "temporal_tension": {
+    "tension": false,
+    "status": "CONSISTENT"
+  },
+  "humanitarian_evidence": {
+    "supports_disaster_assessment": true,
+    "status": "SUPPORTING"
+  },
+  "overall_conflict": false
+}

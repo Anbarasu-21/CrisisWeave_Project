@@ -1,0 +1,22 @@
+{
+  "incident_id": "CW-001",
+  "location": {
+    "latitude": 9.929117,
+    "longitude": 76.270436,
+    "source": "user_map_pin"
+  },
+  "temporal": {
+    "observation_count": 3,
+    "first_observation": "2026-09-11T10:00:00",
+    "latest_observation": "2026-09-11T12:00:00",
+    "initial_severity": "Moderate",
+    "latest_severity": "High",
+    "severity_trend": "INCREASING",
+    "water_extent_trend": "INCREASING",
+    "affected_population_trend": "INCREASING",
+    "overall_temporal_trend": "INCREASING",
+    "progression_direction": "NE",
+    "latest_latitude": 9.93085,
+    "latest_longitude": 76.27205
+  }
+}

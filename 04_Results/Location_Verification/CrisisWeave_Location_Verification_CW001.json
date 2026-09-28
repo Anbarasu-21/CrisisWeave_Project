@@ -1,0 +1,26 @@
+{
+  "incident_id": "CW-001",
+  "location": {
+    "latitude": 9.929117,
+    "longitude": 76.270436,
+    "source": "user_map_pin"
+  },
+  "verification_status": "VERIFIED",
+  "verification_score": 0.855,
+  "components": {
+    "geographic_plausibility": 0.6,
+    "severity_support": 1.0,
+    "humanitarian_support": 1.0,
+    "temporal_support": 1.0,
+    "response_support": 0.75,
+    "state_confidence": 1.0,
+    "conflict_adjustment": 1.0
+  },
+  "reasons": [
+    "Incident point is near a mapped water feature.",
+    "Incident point is 17.20 m from a mapped road.",
+    "A mapped school is 358.26 m away.",
+    "A mapped hospital is 38.14 m away."
+  ],
+  "interpretation": "Verification indicates whether the reported location is sufficiently supported by the available multi-source evidence. It does not mean that GIS alone confirmed flooding."
+}

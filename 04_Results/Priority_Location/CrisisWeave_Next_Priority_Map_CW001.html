@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_1c71eb3011928c85a0a1d5ae8284009a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ardhi/Leaflet.MousePosition/src/L.Control.MousePosition.min.css"/>
+</head>
+<body>
+    
+    
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        var map = map_1c71eb3011928c85a0a1d5ae8284009a;
+
+        var southWest = L.latLng(
+            9.9238,
+            76.2638
+        );
+
+        var northEast = L.latLng(
+            9.9328,
+            76.27279999999999
+        );
+
+        var studyBounds = L.latLngBounds(
+            southWest,
+            northEast
+        );
+
+        map.setMaxBounds(
+            studyBounds
+        );
+
+        map.on(
+            "drag",
+            function() {
+
+                map.panInsideBounds(
+                    studyBounds,
+                    {
+                        animate: false
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+</script>
+    
+            <div class="folium-map" id="map_1c71eb3011928c85a0a1d5ae8284009a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_1c71eb3011928c85a0a1d5ae8284009a = L.map(
+                "map_1c71eb3011928c85a0a1d5ae8284009a",
+                {
+                    center: [9.9283, 76.2683],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 16,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+
+            
+
+        
+    
+            var tile_layer_e1b04f28ad07d1880e7407b6df0ee411 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 10,
+  "maxZoom": 22,
+  "maxNativeZoom": 17,
+  "noWrap": true,
+  "attribution": "Esri, DeLorme, HERE, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_e1b04f28ad07d1880e7407b6df0ee411.addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            map_1c71eb3011928c85a0a1d5ae8284009a.fitBounds(
+                [[9.9238, 76.2638], [9.9328, 76.27279999999999]],
+                {"padding": [20, 20]}
+            );
+        
+    
+            var marker_39e009487d26b29cf961a1e6c8292e0d = L.marker(
+                [9.929117, 76.270436],
+                {
+}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            var icon_5afc0c61a5f0a99b0244d03869c610ba = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "warning-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d484e4e68e19aeea46f9716767e382d0 = L.popup({
+  "maxWidth": 280,
+});
+
+        
+            
+                var html_31015975f0faef2385a2ef6b2be3d952 = $(`<div id="html_31015975f0faef2385a2ef6b2be3d952" style="width: 100.0%; height: 100.0%;">     <div         style="             font-size:14px;             line-height:1.6;             min-width:180px;         "     >          <b>CRISISWEAVE INCIDENT</b>         <br><br>          <b>Incident ID:</b>         CW-001          <br>          <b>Severity:</b>         HIGH          <br>          <b>Status:</b>         Verified / Partially Verified      </div>     </div>`)[0];
+                popup_d484e4e68e19aeea46f9716767e382d0.setContent(html_31015975f0faef2385a2ef6b2be3d952);
+            
+        
+
+        marker_39e009487d26b29cf961a1e6c8292e0d.bindPopup(popup_d484e4e68e19aeea46f9716767e382d0)
+        ;
+
+        
+    
+    
+            marker_39e009487d26b29cf961a1e6c8292e0d.bindTooltip(
+                `<div>
+                     Incident Location — CW-001
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_39e009487d26b29cf961a1e6c8292e0d.setIcon(icon_5afc0c61a5f0a99b0244d03869c610ba);
+            
+    
+            var marker_af1660e3a73214d6a337a5aa7a0423e2 = L.marker(
+                [9.9294302, 76.2702904],
+                {
+}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            var icon_e6b8b55e27f093f5389dbdb575ecf74a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ecf1da93b2570774a3dfc9bdac95ef75 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_98e867a882b8a8f4173ff17500f67a6f = $(`<div id="html_98e867a882b8a8f4173ff17500f67a6f" style="width: 100.0%; height: 100.0%;">     <div         style="             font-size:13px;             line-height:1.6;             min-width:230px;         "     >          <b>AMJ Hospital</b>          <br><br>          <b>Type:</b>         Hospital          <br>          <b>Priority Score:</b>         0.800          <br>          <b>Distance from Incident:</b>         38.14 m          <br>          <b>Distance to Water:</b>         57.29 m          <br>          <b>Direction Alignment:</b>         N/A      </div>     </div>`)[0];
+                popup_ecf1da93b2570774a3dfc9bdac95ef75.setContent(html_98e867a882b8a8f4173ff17500f67a6f);
+            
+        
+
+        marker_af1660e3a73214d6a337a5aa7a0423e2.bindPopup(popup_ecf1da93b2570774a3dfc9bdac95ef75)
+        ;
+
+        
+    
+    
+            marker_af1660e3a73214d6a337a5aa7a0423e2.bindTooltip(
+                `<div>
+                     NEXT PRIORITY — AMJ Hospital
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_af1660e3a73214d6a337a5aa7a0423e2.setIcon(icon_e6b8b55e27f093f5389dbdb575ecf74a);
+            
+    
+            var marker_8744e440a9aa92ccf0449e257e19d70e = L.marker(
+                [9.933706, 76.2698847],
+                {
+}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            var icon_f1947ff08a62bc90a6d6cfb012d95f9a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1cf89f73796c8434c1f86dd26a4e131b = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_ecf0aec96e68741d4f6ff593b1ca488d = $(`<div id="html_ecf0aec96e68741d4f6ff593b1ca488d" style="width: 100.0%; height: 100.0%;">     <div         style="             font-size:13px;             line-height:1.6;             min-width:230px;         "     >          <b>Gateway of Kochi Bridge</b>          <br><br>          <b>Type:</b>         Bridge          <br>          <b>Priority Score:</b>         0.550          <br>          <b>Distance from Incident:</b>         511.08 m          <br>          <b>Distance to Water:</b>         0.00 m          <br>          <b>Direction Alignment:</b>         N/A      </div>     </div>`)[0];
+                popup_1cf89f73796c8434c1f86dd26a4e131b.setContent(html_ecf0aec96e68741d4f6ff593b1ca488d);
+            
+        
+
+        marker_8744e440a9aa92ccf0449e257e19d70e.bindPopup(popup_1cf89f73796c8434c1f86dd26a4e131b)
+        ;
+
+        
+    
+    
+            marker_8744e440a9aa92ccf0449e257e19d70e.bindTooltip(
+                `<div>
+                     Gateway of Kochi Bridge
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8744e440a9aa92ccf0449e257e19d70e.setIcon(icon_f1947ff08a62bc90a6d6cfb012d95f9a);
+            
+    
+            var marker_3cccfec8b536e32bb1a7d37b0439f30a = L.marker(
+                [9.9304504, 76.2669544],
+                {
+}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            var icon_1a75430305a947102cb96e1d7bea1086 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2cda36632ba8fe9572441387ca3091e8 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_80471b8a0871671ad81fe524ba473daf = $(`<div id="html_80471b8a0871671ad81fe524ba473daf" style="width: 100.0%; height: 100.0%;">     <div         style="             font-size:13px;             line-height:1.6;             min-width:230px;         "     >          <b>Bridge</b>          <br><br>          <b>Type:</b>         Bridge          <br>          <b>Priority Score:</b>         0.520          <br>          <b>Distance from Incident:</b>         409.23 m          <br>          <b>Distance to Water:</b>         9.14 m          <br>          <b>Direction Alignment:</b>         N/A      </div>     </div>`)[0];
+                popup_2cda36632ba8fe9572441387ca3091e8.setContent(html_80471b8a0871671ad81fe524ba473daf);
+            
+        
+
+        marker_3cccfec8b536e32bb1a7d37b0439f30a.bindPopup(popup_2cda36632ba8fe9572441387ca3091e8)
+        ;
+
+        
+    
+    
+            marker_3cccfec8b536e32bb1a7d37b0439f30a.bindTooltip(
+                `<div>
+                     Bridge
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3cccfec8b536e32bb1a7d37b0439f30a.setIcon(icon_1a75430305a947102cb96e1d7bea1086);
+            
+    
+            var marker_83f90986d1b227fcfb3c23d1d2ec78bc = L.marker(
+                [9.93082108969052, 76.26732123627193],
+                {
+}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            var icon_69f9b53273e7605a0bdd5abe3478385d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cbd82b89b563e72edf322fc1a8e73583 = L.popup({
+  "maxWidth": 320,
+});
+
+        
+            
+                var html_1857d9b2efe4a722ab9aadf18e4e67d9 = $(`<div id="html_1857d9b2efe4a722ab9aadf18e4e67d9" style="width: 100.0%; height: 100.0%;">     <div         style="             font-size:13px;             line-height:1.6;             min-width:230px;         "     >          <b>Kendriya Vidyalaya-Mundamveli Kochi</b>          <br><br>          <b>Type:</b>         School          <br>          <b>Priority Score:</b>         0.505          <br>          <b>Distance from Incident:</b>         390.06 m          <br>          <b>Distance to Water:</b>         33.99 m          <br>          <b>Direction Alignment:</b>         N/A      </div>     </div>`)[0];
+                popup_cbd82b89b563e72edf322fc1a8e73583.setContent(html_1857d9b2efe4a722ab9aadf18e4e67d9);
+            
+        
+
+        marker_83f90986d1b227fcfb3c23d1d2ec78bc.bindPopup(popup_cbd82b89b563e72edf322fc1a8e73583)
+        ;
+
+        
+    
+    
+            marker_83f90986d1b227fcfb3c23d1d2ec78bc.bindTooltip(
+                `<div>
+                     Kendriya Vidyalaya-Mundamveli Kochi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_83f90986d1b227fcfb3c23d1d2ec78bc.setIcon(icon_69f9b53273e7605a0bdd5abe3478385d);
+            
+    
+            var poly_line_6b1deeb407f1d54b699bb3ca1bcc28c0 = L.polyline(
+                [[9.929117, 76.270436], [9.9294302, 76.2702904]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.8, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            poly_line_6b1deeb407f1d54b699bb3ca1bcc28c0.bindTooltip(
+                `<div>
+                     Incident → Next Priority Location
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_98bef767fc7e7974d0bc22934f6eca45 = L.marker(
+                [9.9294302, 76.2702904],
+                {
+}
+            ).addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+            var icon_86748f078a7a44b885d59d8cca41b743 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c3632b5560f9a23e59abc1bdee02a3cc = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a7ebb9866c35ff54877df649f9356646 = $(`<div id="html_a7ebb9866c35ff54877df649f9356646" style="width: 100.0%; height: 100.0%;">     <div         style="             font-size:14px;             line-height:1.6;             min-width:260px;         "     >          <b>⭐ NEXT PRIORITY LOCATION</b>          <br><br>          <b>Name:</b>         AMJ Hospital          <br>          <b>Type:</b>         Hospital          <br>          <b>Priority Score:</b>         0.800          <br><br>          <b>Decision Basis:</b>          <br>          Temporal progression direction          <br>          Incident proximity          <br>          Water proximity          <br>          Critical infrastructure importance      </div>     </div>`)[0];
+                popup_c3632b5560f9a23e59abc1bdee02a3cc.setContent(html_a7ebb9866c35ff54877df649f9356646);
+            
+        
+
+        marker_98bef767fc7e7974d0bc22934f6eca45.bindPopup(popup_c3632b5560f9a23e59abc1bdee02a3cc)
+        ;
+
+        
+    
+    
+            marker_98bef767fc7e7974d0bc22934f6eca45.bindTooltip(
+                `<div>
+                     ⭐ NEXT PRIORITY: AMJ Hospital
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_98bef767fc7e7974d0bc22934f6eca45.setIcon(icon_86748f078a7a44b885d59d8cca41b743);
+            
+    
+            var mouse_position_ba0c8d1e674547deecdbc4f438db67e1 = new L.Control.MousePosition(
+                {
+  "position": "bottomleft",
+  "separator": " | ",
+  "emptyString": "Unavailable",
+  "lngFirst": false,
+  "numDigits": 6,
+  "prefix": "Lat/Lon:",
+}
+            );
+            mouse_position_ba0c8d1e674547deecdbc4f438db67e1.options["latFormatter"] =
+                undefined;
+            mouse_position_ba0c8d1e674547deecdbc4f438db67e1.options["lngFormatter"] =
+                undefined;
+            map_1c71eb3011928c85a0a1d5ae8284009a.addControl(mouse_position_ba0c8d1e674547deecdbc4f438db67e1);
+        
+    
+            tile_layer_e1b04f28ad07d1880e7407b6df0ee411.addTo(map_1c71eb3011928c85a0a1d5ae8284009a);
+        
+    
+                marker_39e009487d26b29cf961a1e6c8292e0d.setIcon(icon_5afc0c61a5f0a99b0244d03869c610ba);
+            
+    
+                marker_af1660e3a73214d6a337a5aa7a0423e2.setIcon(icon_e6b8b55e27f093f5389dbdb575ecf74a);
+            
+    
+                marker_8744e440a9aa92ccf0449e257e19d70e.setIcon(icon_f1947ff08a62bc90a6d6cfb012d95f9a);
+            
+    
+                marker_3cccfec8b536e32bb1a7d37b0439f30a.setIcon(icon_1a75430305a947102cb96e1d7bea1086);
+            
+    
+                marker_83f90986d1b227fcfb3c23d1d2ec78bc.setIcon(icon_69f9b53273e7605a0bdd5abe3478385d);
+            
+    
+                marker_98bef767fc7e7974d0bc22934f6eca45.setIcon(icon_86748f078a7a44b885d59d8cca41b743);
+            
+</script>
+</html>

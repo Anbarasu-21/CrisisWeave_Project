@@ -1,0 +1,37 @@
+{
+  "incident_id": "CW-001",
+  "evidence_id": "EV-001",
+  "current_state": {
+    "severity": "High",
+    "severity_scores": {
+      "Low": 0.0,
+      "Moderate": 0.0,
+      "High": 1.0
+    },
+    "operational_risk": "CRITICAL",
+    "state_confidence": 1.0,
+    "severity_uncertainty": -0.0
+  },
+  "humanitarian_state": {
+    "category": "requests_or_urgent_needs",
+    "support_score": 1.0
+  },
+  "temporal_state": {
+    "trend": "INCREASING",
+    "escalation_state": "ESCALATING",
+    "escalation_score": 1.0,
+    "progression_direction": "NE"
+  },
+  "geographic_state": {
+    "critical_context_score": 1.0
+  },
+  "response_state": {
+    "status": "En Route",
+    "response_signal": 0.75
+  },
+  "evidence_quality": {
+    "conflict_status": "AGREEMENT",
+    "overall_conflict": false,
+    "state_confidence": 1.0
+  }
+}

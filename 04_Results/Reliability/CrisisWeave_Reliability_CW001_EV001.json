@@ -1,0 +1,48 @@
+{
+  "incident_id": "CW-001",
+  "evidence_id": "EV-001",
+  "conflict_status": "AGREEMENT",
+  "overall_conflict": false,
+  "sources": [
+    {
+      "source": "CNN",
+      "baseline_reliability": 0.75,
+      "freshness_score": 1.0,
+      "confidence_factor": 1.0,
+      "conflict_penalty": 0.0,
+      "final_reliability": 0.75
+    },
+    {
+      "source": "BERT",
+      "baseline_reliability": 0.75,
+      "freshness_score": 1.0,
+      "confidence_factor": 1.0,
+      "conflict_penalty": 0.0,
+      "final_reliability": 0.75
+    },
+    {
+      "source": "OpenStreetMap",
+      "baseline_reliability": 0.9,
+      "freshness_score": 1.0,
+      "confidence_factor": 1.0,
+      "conflict_penalty": 0.0,
+      "final_reliability": 0.9
+    },
+    {
+      "source": "Temporal_Analysis",
+      "baseline_reliability": 0.8,
+      "freshness_score": 1.0,
+      "confidence_factor": 1.0,
+      "conflict_penalty": 0.0,
+      "final_reliability": 0.8
+    },
+    {
+      "source": "Response_Event",
+      "baseline_reliability": 0.85,
+      "freshness_score": 1.0,
+      "confidence_factor": 1.0,
+      "conflict_penalty": 0.0,
+      "final_reliability": 0.85
+    }
+  ]
+}

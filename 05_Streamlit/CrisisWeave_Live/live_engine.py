@@ -87,6 +87,153 @@ def freshness_score(observed_at, reference_time, decay_rate=DEFAULT_DECAY_RATE):
     freshness = math.exp(-decay_rate * age_hours)
     return {'age_hours': age_hours, 'freshness': clamp(freshness)}
 
+def haversine_distance_m(lat1, lon1, lat2, lon2):
+    """
+    Calculate geographic distance between two latitude/longitude
+    coordinates using the Haversine formula.
+
+    Returns:
+        Distance in meters.
+    """
+    lat1 = safe_float(lat1)
+    lon1 = safe_float(lon1)
+    lat2 = safe_float(lat2)
+    lon2 = safe_float(lon2)
+
+    if None in (lat1, lon1, lat2, lon2):
+        return None
+
+    earth_radius_m = 6371000.0
+
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+
+    a = (
+        math.sin(dphi / 2.0) ** 2
+        + math.cos(phi1)
+        * math.cos(phi2)
+        * math.sin(dlambda / 2.0) ** 2
+    )
+
+    return 2.0 * earth_radius_m * math.atan2(
+        math.sqrt(a),
+        math.sqrt(max(0.0, 1.0 - a))
+    )
+
+
+def group_observations_by_incident(
+    observations,
+    incident_radius_m=100.0
+):
+    """
+    Group observations into independent geographic incidents.
+
+    Important:
+    - Uses observation coordinates.
+    - Uses a stable incident center for each group.
+    - Does NOT use transitive chaining.
+    - Different geographic clusters remain separate.
+    """
+
+    valid = []
+
+    for observation in observations:
+        lat = safe_float(observation.get("latitude"))
+        lon = safe_float(observation.get("longitude"))
+
+        if lat is None or lon is None:
+            continue
+
+        item = dict(observation)
+        item["_group_lat"] = lat
+        item["_group_lon"] = lon
+        valid.append(item)
+
+    if not valid:
+        return []
+
+    valid = sort_observations(valid)
+
+    groups = []
+
+    for observation in valid:
+
+        lat = observation["_group_lat"]
+        lon = observation["_group_lon"]
+
+        assigned_group = None
+        assigned_distance = None
+
+        for group in groups:
+
+            distance = haversine_distance_m(
+                lat,
+                lon,
+                group["center_lat"],
+                group["center_lon"]
+            )
+
+            if (
+                distance is not None
+                and distance <= incident_radius_m
+            ):
+                assigned_group = group
+                assigned_distance = distance
+                break
+
+        if assigned_group is None:
+
+            group_id = f"INCIDENT-{len(groups) + 1:03d}"
+
+            groups.append(
+                {
+                    "incident_id": group_id,
+                    "center_lat": lat,
+                    "center_lon": lon,
+                    "observations": [observation],
+                    "observation_count": 1,
+                    "max_observation_distance_m": 0.0
+                }
+            )
+
+        else:
+
+            assigned_group["observations"].append(
+                observation
+            )
+
+            assigned_group["observation_count"] += 1
+
+            if assigned_distance is not None:
+                assigned_group[
+                    "max_observation_distance_m"
+                ] = max(
+                    assigned_group[
+                        "max_observation_distance_m"
+                    ],
+                    assigned_distance
+                )
+
+    for group in groups:
+
+        for observation in group["observations"]:
+
+            observation.pop(
+                "_group_lat",
+                None
+            )
+
+            observation.pop(
+                "_group_lon",
+                None
+            )
+
+    return groups
+
+
 def sort_observations(observations):
     return sorted(observations, key=lambda x: parse_datetime(x['observed_at']))
 
@@ -471,33 +618,263 @@ def build_dynamic_state(fused, temporal, humanitarian, conflict, reliability, gi
         operational_risk = 'UNKNOWN'
     return {'current_state': {'severity': severity, 'fused_severity': fused_severity, 'latest_severity': latest_severity, 'confidence': fused.get('confidence', 0.0), 'uncertainty': fused.get('uncertainty', 'HIGH')}, 'humanitarian_state': humanitarian, 'temporal_state': temporal, 'conflict_state': conflict, 'geographic_state': gis_context, 'verification': verification, 'evidence_quality': {'mean_reliability': reliability.get('mean_reliability', 0.0)}, 'operational_risk': operational_risk}
 
-def rank_priority_locations(gis_context, incident_lat, incident_lon, progression_direction, fused_severity, verification_status, latest_severity):
+def _cw_original_rank_priority_locations(
+    gis_context,
+    incident_lat,
+    incident_lon,
+    progression_direction,
+    fused_severity,
+    verification_status,
+    latest_severity
+):
+
     candidates = []
-    latest_high_conflict = latest_severity == 'High' and fused_severity != 'High'
-    eligible = (fused_severity == 'High' or latest_high_conflict) and verification_status in {'VERIFIED', 'PARTIALLY VERIFIED'}
-    features = gis_context.get('features', [])
+
+    latest_high_conflict = (
+        latest_severity == "High"
+        and fused_severity != "High"
+    )
+
+    eligible = (
+        (
+            fused_severity == "High"
+            or latest_high_conflict
+        )
+        and verification_status
+        in {
+            "VERIFIED",
+            "PARTIALLY VERIFIED"
+        }
+    )
+
+    features = gis_context.get(
+        "features",
+        []
+    )
+
     for item in features:
-        if item['feature_type'] not in {'Hospital', 'Bridge', 'School'}:
+
+        if item.get("feature_type") not in {
+            "Hospital",
+            "Bridge",
+            "School"
+        }:
             continue
-        lat = item.get('latitude')
-        lon = item.get('longitude')
+
+        lat = item.get("latitude")
+        lon = item.get("longitude")
+
         if lat is None or lon is None:
             continue
-        b = bearing(incident_lat, incident_lon, lat, lon)
-        align = direction_alignment(b, progression_direction)
-        incident_proximity = distance_score(item['distance_m'])
-        water = nearest_feature(gis_context, 'Waterbody')
+
+        distance_m = item.get(
+            "distance_m",
+            0
+        )
+
+        # --------------------------------------------------------
+        # SPATIAL PROXIMITY
+        # --------------------------------------------------------
+
+        incident_proximity = distance_score(
+            distance_m
+        )
+
+        # --------------------------------------------------------
+        # PROGRESSION DIRECTION
+        # --------------------------------------------------------
+
+        b = bearing(
+            incident_lat,
+            incident_lon,
+            lat,
+            lon
+        )
+
+        align = direction_alignment(
+            b,
+            progression_direction
+        )
+
+        # --------------------------------------------------------
+        # WATER CONTEXT
+        # --------------------------------------------------------
+
+        water = nearest_feature(
+            gis_context,
+            "Waterbody"
+        )
+
         if water is not None:
-            water_distance = abs(item['distance_m'] - water['distance_m'])
-            water_score = 1.0 if water_distance <= 50 else 0.8 if water_distance <= 100 else 0.5 if water_distance <= 200 else 0.0
+
+            water_distance = abs(
+                distance_m
+                - water["distance_m"]
+            )
+
+            water_score = (
+                1.0
+                if water_distance <= 50
+                else 0.8
+                if water_distance <= 100
+                else 0.5
+                if water_distance <= 200
+                else 0.0
+            )
+
         else:
+
             water_distance = None
             water_score = 0.0
-        criticality = CRITICALITY[item['feature_type']]
-        score = 0.4 * align + 0.3 * incident_proximity + 0.2 * water_score + 0.1 * criticality
-        candidates.append({'name': item['name'], 'feature_type': item['feature_type'], 'latitude': lat, 'longitude': lon, 'distance_m': item['distance_m'], 'direction_alignment': align, 'incident_proximity': incident_proximity, 'water_proximity': water_score, 'base_criticality': criticality, 'priority_score': round(score, 3)})
-    candidates.sort(key=lambda x: x['priority_score'], reverse=True)
-    return {'eligible': eligible, 'ranked_candidates': candidates, 'selected_next_priority': candidates[0] if eligible and candidates else None, 'latest_high_conflict': latest_high_conflict}
+
+        # --------------------------------------------------------
+        # FACILITY CRITICALITY
+        # --------------------------------------------------------
+
+        criticality = CRITICALITY.get(
+            item["feature_type"],
+            0.0
+        )
+
+        # --------------------------------------------------------
+        # PRIORITY SCORE
+        #
+        # Proximity is intentionally dominant.
+        #
+        # 50% proximity
+        # 20% progression alignment
+        # 20% criticality
+        # 10% water context
+        # --------------------------------------------------------
+
+        score = (
+            0.50 * incident_proximity
+            +
+            0.20 * align
+            +
+            0.20 * criticality
+            +
+            0.10 * water_score
+        )
+
+        candidates.append({
+
+            "name":
+                item.get(
+                    "name",
+                    "Unnamed"
+                ),
+
+            "feature_type":
+                item["feature_type"],
+
+            "latitude":
+                lat,
+
+            "longitude":
+                lon,
+
+            "distance_m":
+                distance_m,
+
+            "direction_alignment":
+                round(
+                    align,
+                    3
+                ),
+
+            "incident_proximity":
+                round(
+                    incident_proximity,
+                    3
+                ),
+
+            "water_proximity":
+                round(
+                    water_score,
+                    3
+                ),
+
+            "water_distance_m":
+                water_distance,
+
+            "base_criticality":
+                criticality,
+
+            "priority_score":
+                round(
+                    score,
+                    3
+                )
+        })
+
+    # ------------------------------------------------------------
+    # CLOSEST / MOST RELEVANT CANDIDATES FIRST
+    # ------------------------------------------------------------
+
+    # ------------------------------------------------------------
+    # NEXT VERIFICATION LOCATION
+    #
+    # Nearest eligible useful infrastructure first.
+    # Existing priority score is retained as the tie-breaker.
+    #
+    # Roads are already excluded from the candidate set.
+    # ------------------------------------------------------------
+
+    candidates = list(enumerate(candidates))
+
+    candidates.sort(
+        key=lambda pair: (
+            float(
+                pair[1].get(
+                    "distance_m",
+                    999999999.0
+                )
+                if pair[1].get(
+                    "distance_m",
+                    None
+                ) is not None
+                else 999999999.0
+            ),
+            -float(
+                pair[1].get(
+                    "priority_score",
+                    0.0
+                )
+                if pair[1].get(
+                    "priority_score",
+                    None
+                ) is not None
+                else 0.0
+            ),
+            pair[0]
+        )
+    )
+
+    candidates = [
+        item
+        for _, item in candidates
+    ]
+
+    return {
+
+        "eligible":
+            eligible,
+
+        "ranked_candidates":
+            candidates,
+
+        "selected_next_priority":
+            (
+                candidates[0]
+                if eligible and candidates
+                else None
+            ),
+
+        "latest_high_conflict":
+            latest_high_conflict
+    }
+
 
 def build_recommendation(fused, temporal, verification, priority, conflict):
     severity = fused.get('fused_severity')
@@ -547,3 +924,253 @@ def reconstruct_state(observations, gis_context, analysis_time=None):
     dynamic_state = build_dynamic_state(fused, temporal, humanitarian, conflict, reliability, gis_context, verification)
     recommendation = build_recommendation(fused, temporal, verification, priority, conflict)
     return {'analysis_time': analysis_time, 'observation_count': len(observations), 'temporal': temporal, 'conflict': conflict, 'reliability': reliability, 'fusion': fused, 'humanitarian': humanitarian, 'verification': verification, 'dynamic_state': dynamic_state, 'priority': priority, 'recommendation': recommendation}
+
+# ==============================================================================
+# CRISISWEAVE — DISTANCE-FIRST VERIFICATION WRAPPER
+# ==============================================================================
+
+def rank_priority_locations(
+    gis_context,
+    incident_lat,
+    incident_lon,
+    progression_direction,
+    fused_severity,
+    verification_status,
+    latest_severity
+):
+    """
+    Preserve the original GIS ranking implementation while enforcing
+    CrisisWeave's operational verification rule:
+
+        USEFUL INFRASTRUCTURE > ROADS/STREETS
+        DISTANCE FIRST
+        CRITICALITY AS TIE-BREAKER
+
+    The original function remains untouched as:
+        _cw_original_rank_priority_locations()
+    """
+
+    # --------------------------------------------------------------------------
+    # Run the original engine.
+    # --------------------------------------------------------------------------
+
+    original_result = _cw_original_rank_priority_locations(
+        gis_context,
+        incident_lat,
+        incident_lon,
+        progression_direction,
+        fused_severity,
+        verification_status,
+        latest_severity
+    )
+
+    # --------------------------------------------------------------------------
+    # Defensive handling.
+    # --------------------------------------------------------------------------
+
+    if original_result is None:
+        return []
+
+    if not isinstance(original_result, (list, tuple)):
+        return original_result
+
+    candidates = list(original_result)
+
+    if not candidates:
+        return []
+
+    # --------------------------------------------------------------------------
+    # Helpers
+    # --------------------------------------------------------------------------
+
+    def text_value(item, *keys):
+        for key in keys:
+            try:
+                value = item.get(key)
+            except Exception:
+                value = None
+
+            if value is not None:
+                return str(value).strip()
+
+        return ""
+
+    def number_value(item, *keys, default=999999999.0):
+        for key in keys:
+            try:
+                value = item.get(key)
+            except Exception:
+                value = None
+
+            if value is None:
+                continue
+
+            try:
+                return float(value)
+            except Exception:
+                pass
+
+        return default
+
+    def feature_type(item):
+        return text_value(
+            item,
+            "type",
+            "feature_type",
+            "category",
+            "feature_class",
+            "class",
+            "amenity_type"
+        ).lower()
+
+    def feature_name(item):
+        return text_value(
+            item,
+            "name",
+            "location",
+            "display_name",
+            "feature_name",
+            "title"
+        ).lower()
+
+    def distance(item):
+        return number_value(
+            item,
+            "distance_m",
+            "distance",
+            "dist_m",
+            "distanceMeters",
+            default=999999999.0
+        )
+
+    def criticality(item):
+        return number_value(
+            item,
+            "criticality",
+            "base_criticality",
+            "feature_criticality",
+            default=0.0
+        )
+
+    # --------------------------------------------------------------------------
+    # REMOVE ROADS / STREETS FROM NEXT-VERIFICATION CANDIDATES
+    #
+    # Roads are useful GIS context, but they should NOT become the selected
+    # "Next Verification Location".
+    # --------------------------------------------------------------------------
+
+    road_words = (
+        "road",
+        "street",
+        "lane",
+        "highway",
+        "junction",
+        "avenue",
+        "bypass",
+        "cross",
+        "main road",
+        "link road",
+        "service road"
+    )
+
+    useful_types = (
+        "school",
+        "hospital",
+        "bridge",
+        "water",
+        "river",
+        "lake",
+        "reservoir",
+        "dam",
+        "clinic",
+        "shelter",
+        "fire",
+        "police",
+        "health",
+        "emergency"
+    )
+
+    useful = []
+    other_nonroad = []
+
+    for item in candidates:
+
+        if not isinstance(item, dict):
+            continue
+
+        ftype = feature_type(item)
+        fname = feature_name(item)
+
+        is_road = (
+            any(word in ftype for word in road_words)
+            or any(word in fname for word in road_words)
+        )
+
+        if is_road:
+            continue
+
+        is_useful = (
+            any(word in ftype for word in useful_types)
+            or any(word in fname for word in useful_types)
+        )
+
+        if is_useful:
+            useful.append(item)
+        else:
+            other_nonroad.append(item)
+
+    # --------------------------------------------------------------------------
+    # Prefer recognised useful infrastructure.
+    #
+    # If none exists, retain non-road GIS features rather than returning
+    # an empty result.
+    # --------------------------------------------------------------------------
+
+    if useful:
+        verification_candidates = useful
+    else:
+        verification_candidates = other_nonroad
+
+    if not verification_candidates:
+        return []
+
+    # --------------------------------------------------------------------------
+    # DISTANCE-FIRST SORTING
+    #
+    # Primary:
+    #       smallest distance
+    #
+    # Secondary:
+    #       highest criticality
+    #
+    # Tertiary:
+    #       original ordering
+    #
+    # This is intentionally NOT priority-score-first.
+    # --------------------------------------------------------------------------
+
+    indexed = list(enumerate(verification_candidates))
+
+    indexed.sort(
+        key=lambda pair: (
+            distance(pair[1]),
+            -criticality(pair[1]),
+            pair[0]
+        )
+    )
+
+    ranked = []
+
+    for rank, (_, item) in enumerate(indexed, start=1):
+
+        # Preserve the original dictionary completely.
+        candidate = dict(item)
+
+        # Update rank only if the field already exists or is naturally
+        # expected by the UI.
+        candidate["rank"] = rank
+
+        ranked.append(candidate)
+
+    return ranked
+
